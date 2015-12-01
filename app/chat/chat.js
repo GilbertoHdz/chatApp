@@ -9,7 +9,7 @@ angular.module('appChat')
 
   	socketChat.on('get msg', function (msj, user, avatar) {
 	     $scope.mensajes.push({'msj' : msj, 'user': user, 'avatar':avatar});
-       console.log($scope.mensajes);
+       //console.log($scope.mensajes);
   	});
 
   	$scope.sendMsj = function(msj) {
