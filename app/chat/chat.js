@@ -1,12 +1,15 @@
 angular.module('appChat')
 .controller('ChatCtrl', function ($scope, $location, socketChat) {
 
+  $scope.mensajes = [];
+
  	socketChat.on('user joined', function (data) {
-	    $("#ulChat").append(getComment("System: Se Ha Conectado: " +data.username, "", '2D882D/fff&text=SYS'));
-  	});
+    console.log("user joined");
+  });
 
   	socketChat.on('get msg', function (msj, user, avatar) {
-	    $("#ulChat").append(getComment(user, msj, avatar+'/fff&text=U'));
+	     $scope.mensajes.push({'msj' : msj, 'user': user, 'avatar':avatar});
+       console.log($scope.mensajes);
   	});
 
   	$scope.sendMsj = function(msj) {
@@ -14,21 +17,6 @@ angular.module('appChat')
   		$scope.msj = "";
       	socketChat.emit('send msg', {'msg':msj, 'avatar': getRandomColor() });
 	};
-
-  	function getComment (NombUsuario, setComment, img) {
-
-  		return "<li class='left clearfix' > " +
-  				"<span class='chat-img pull-left' > " +
-  					"<img src='http://placehold.it/50/" + img + "' alt='User Avatar' class='img-circle' />" +
-  				"</span>" +
-  				"<div class='chat-body clearfix' > " +
-  					"<div class='header'>" +
-  						"<strong class='primary-font'>"+ NombUsuario +"</strong> " +
-  					"</div>" +
-  					"<p>"+setComment+"</p>" +
-  				"</div>" +
-  			"</li>";
-  	}
 
   	function getRandomColor() {
 	    var letters = '0123456789ABCDEF'.split('');
